@@ -96,6 +96,17 @@ router.get('/:id', (req, res) => {
     })
 })
 
+router.put("/:id", (req, res) => {
+    Users.update(req.body, req.params.id)
+    .then(id => {
+console.log(id);
+        res.status(200).json({Message: "user updated"})
+    })
+    .catch(err => {
+        res.status(400).json(err.message);
+    })
+})
+
 router.delete("/:id", (req, res) => {
     Users.remove(req.params.id)
     .then(id => {
