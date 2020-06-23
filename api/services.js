@@ -3,11 +3,17 @@ const secret = require('./secrets');
 
 
 module.exports = {
-    isValid,
+    isValidRegister,
+    isValidLogin,
     restricted
 }
 
-function isValid(user) {
+function isValidRegister(user) {
+    return Boolean(user.username && user.password && user.name && user.role && typeof user.password === "string");
+}
+
+
+function isValidLogin(user) {
     return Boolean(user.username && user.password && typeof user.password === "string");
 }
 

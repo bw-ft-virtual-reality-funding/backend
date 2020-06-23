@@ -2,14 +2,14 @@ const router = require("express").Router();
 const Users = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
-const { isValid, restricted } = require('../services');
+const { isValidLogin, isValidRegister, restricted } = require('../services');
 const db = require('../../data/dbConfig');
 const secret = require('../secrets');
 
 router.post('/register', (req, res) => {
     const credentials = req.body;
 
-    if (isValid(credentials)){
+    if (isValidRegister(credentials)){
         const rounds = process.env.BCRYPT_ROUNDS || 10;
          const hash = bcryptjs.hashSync(credentials.password, rounds);
 
@@ -22,7 +22,7 @@ router.post('/register', (req, res) => {
         db("users").where({id: id[0] })
         .then(post => {
             
-            res.status(201).json(post);
+            res.status(201).json({message: "New user registered. Please login to receive token.", post});
         })
         .catch(err => {
             res.json({err: err.message});
@@ -30,14 +30,14 @@ router.post('/register', (req, res) => {
         })
     })
     .catch(err => {
-        res.json({err: err.message});
+        res.status(400).json({message: "User could not be created."}, err.message);
         console.log(err);
     })
 
 
     } else {
         
-            res.status(400).json({msg: 'Please provide username and password as strings.'})
+            res.status(400).json({message: 'Please provide username, password, name, and role as strings.'})
         
     }
 })
@@ -46,7 +46,7 @@ router.post('/register', (req, res) => {
 router.post('/login', (req, res) => {
     const {username, password} = req.body;
 
-    if(isValid(req.body)){
+    if(isValidLogin(req.body)){
         db("users").where({ username }).first()
         .then(user => {
             if (user && bcryptjs.compareSync(password, user.password) ) {
