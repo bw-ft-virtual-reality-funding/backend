@@ -91,4 +91,19 @@ router.get('/', restricted, (req, res) => {
     })
 })
 
+router.get('/:id', (req, res) => {
+    Users.findById(req.params.id)
+    .then(user => {
+        if (user){
+            res.status(200).json(user)
+        } else {
+            res.status(400).json({Message: "User could not be found"})
+        }
+       
+    })
+    .catch(err => {
+        res.status(500).json({Message: "Error retrieving user."}, err.message)
+    })
+})
+
 module.exports = router;
