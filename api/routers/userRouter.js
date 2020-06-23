@@ -15,25 +15,15 @@ router.post('/register', (req, res) => {
 
     credentials.password = hash; 
 
-     db("users").insert(credentials)
-    .then(id => {
-        console.log(id);
-
-        db("users").where({id: id[0] })
-        .then(post => {
-            
-            res.status(201).json({message: "New user registered. Please login to receive token.", post});
-        })
-        .catch(err => {
-            res.json({err: err.message});
-            console.log(err.message);
-        })
+    Users.add(credentials)
+    .then(saved => {
+      res.status(201).json(saved);
     })
-    .catch(err => {
-        res.status(400).json(err.message);
-        console.log(err);
-    })
+    .catch(error => {
+      res.status(500).json(error.message)
+    });
 
+   
 
     } else {
         
@@ -103,6 +93,17 @@ router.get('/:id', (req, res) => {
     })
     .catch(err => {
         res.status(500).json({Message: "Error retrieving user."}, err.message)
+    })
+})
+
+router.delete("/:id", (req, res) => {
+    Users.remove(req.params.id)
+    .then(id => {
+console.log(id);
+        res.status(200).json({Message: "user deleted"})
+    })
+    .catch(err => {
+        res.status(400).json(err.message);
     })
 })
 

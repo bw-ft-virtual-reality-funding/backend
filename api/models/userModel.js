@@ -18,7 +18,7 @@ module.exports = {
       .insert(user);
   };
   
-  function findById(id) {
+   function findById(id) {
     return db('users')
       .where({ id })
       .select('name', 'role', "id")
