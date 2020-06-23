@@ -10,7 +10,7 @@ server.get('/', (req, res) => {
     res.status(200).json({msg: "api running"});
 })
 
-server.use('/users', userRouter);
-server.use('/projects', projectRouter);
+server.use('/api/users', userRouter);
+server.use('/api/projects', projectRouter);
 
 module.exports = server;
