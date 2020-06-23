@@ -8,19 +8,19 @@ const secret = require('../secrets');
 
 router.post('/register', (req, res) => {
     const credentials = req.body;
-
     if (isValidRegister(credentials)){
         const rounds = process.env.BCRYPT_ROUNDS || 10;
          const hash = bcryptjs.hashSync(credentials.password, rounds);
 
     credentials.password = hash; 
 
-    Users.add(credentials)
+    db("users").insert(credentials)
     .then(saved => {
-      res.status(201).json(saved);
+        res.status(201).json({message: "new user created"})
+      console.log(saved);
     })
     .catch(error => {
-      res.status(500).json(error.message)
+      res.status(500).json({msg: error.message})
     });
 
    
@@ -43,7 +43,7 @@ router.post('/login', (req, res) => {
                 const token = generateToken(user);
             
                 console.log(token);
-            res.status(200).json({ message: `Welcome ${user.username}!`, token});
+            res.status(200).json({ message: `Welcome ${user.username},`, token, user: user});
 
             } else {
                 res.status(401).json({ message: 'Invalid Credentials' });
