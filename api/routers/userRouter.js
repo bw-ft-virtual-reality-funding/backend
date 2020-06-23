@@ -26,11 +26,11 @@ router.post('/register', (req, res) => {
         })
         .catch(err => {
             res.json({err: err.message});
-            console.log(err.Error);
+            console.log(err.message);
         })
     })
     .catch(err => {
-        res.status(400).json({message: "User could not be created."}, err.message);
+        res.status(400).json(err.message);
         console.log(err);
     })
 
