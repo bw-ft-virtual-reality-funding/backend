@@ -17,7 +17,7 @@ router.get("/", (req, res) => {
       if (title && description) {
           Projects.add(project)
           .then(project => {
-              res.status(201).json(project);
+              res.status(201).json({msg: "project added"});
           })
           .catch(err => {
               res.status(500).json({err: err});

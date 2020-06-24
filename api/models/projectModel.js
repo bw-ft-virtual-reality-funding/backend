@@ -13,8 +13,8 @@ module.exports = {
   };
   
   
-  async function add(project) {
-    const [id] = await db('projects').insert(project);
+   function add(project) {
+    const [id] = db('projects').insert(project);
   
     return findById(id);
   };
