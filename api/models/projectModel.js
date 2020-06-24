@@ -14,9 +14,8 @@ module.exports = {
   
   
    function add(project) {
-    const [id] = db('projects').insert(project);
-  
-    return findById(id);
+    return db('projects')
+      .insert(project);
   };
   
   function findById(id) {
