@@ -2,7 +2,7 @@ const express = require('express');
 const server = express();
 const userRouter = require('./routers/userRouter');
 const projectRouter = require('./routers/projectRouter');
-const {restricted} = require('./services');
+const {restricted} = require('./helpers/services');
 const cors = require("cors");
 const helmet = require("helmet");
 

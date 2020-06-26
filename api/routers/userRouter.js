@@ -2,9 +2,9 @@ const router = require("express").Router();
 const Users = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
-const { isValidLogin, isValidRegister, restricted } = require('../services');
+const { isValidLogin, isValidRegister, restricted } = require('../helpers/services');
 const db = require('../../data/dbConfig');
-const secret = require('../secrets');
+const secret = require('../helpers/secrets');
 
 router.post('/register', (req, res) => {
     const credentials = req.body;
